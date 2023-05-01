@@ -104,7 +104,7 @@ import com.vaadin.flow.component.dependency.NpmPackage;
  */
 @SuppressWarnings("serial")
 @Tag("div")
-@JsModule("./vis-loader.js")
+@JsModule("./vis-loader-new.ts")
 @JsModule("./networkDiagram-connector-flow.js")
 @JsModule("vis-network/standalone/umd/vis-network.min.js")
 @NpmPackage(value = "vis-network", version = "9.0.5")

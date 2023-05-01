@@ -1,6 +1,6 @@
 # Vis.js Network diagram for Vaadin Framework
 
-Vaadin 14 Java integration of [vis-network](https://github.com/visjs/vis-network)
+Vaadin 23 Java integration of [vis-network](https://github.com/visjs/vis-network)
 
 [![Published on Vaadin Directory](https://img.shields.io/vaadin-directory/status/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
 [![Vaadin Directory version for vis-network-vaadin](http://img.shields.io/vaadin-directory/version/vis-network-vaadin)](https://vaadin.com/directory/component/vis-network-vaadin)
