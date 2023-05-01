@@ -15,9 +15,9 @@ Vaadin 23 Java integration of [vis-network](https://github.com/visjs/vis-network
 
 ![example](doc/simpleexample.png)
 
-- Forked from [watho/vaadin-flow-visjs](https://github.com/watho/vaadin-flow-visjs)
-- Implements the new version of **vis.js network module (9.0.5)** for **Vaadin 14(LTS)**.
-- Supports **NPM** mode on Vaadin 14+
+- Forked from [alisardarian/vis-network-vaadin](https://github.com/alisardarian/vis-network-vaadin)
+- Implements the new version of **vis.js network module (9.0.5)** for **Vaadin 23**.
+- Supports **NPM** mode on Vaadin 23+
   
 ### vis-network documentation:
 [https://visjs.github.io/vis-network/docs/network/](https://visjs.github.io/vis-network/docs/network/)
