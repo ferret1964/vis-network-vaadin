@@ -1,13 +1,13 @@
 package org.vaadin.addons.visjs.network.main;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.vaadin.flow.component.page.PendingJavaScriptResult;
+import elemental.json.JsonObject;
+import elemental.json.JsonValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,6 +112,7 @@ public class NetworkDiagram extends Component implements HasSize {
 
   Logger log = LoggerFactory.getLogger(NetworkDiagram.class);
 
+  private Set<String> selections = new HashSet<String>();
   private final Options options;
   private final ObjectMapper mapper = new ObjectMapper();
 
@@ -172,6 +173,18 @@ public class NetworkDiagram extends Component implements HasSize {
 
     // TODO reinitialise listener
     // getEventBus().hasListener(eventType)
+    this.addSelectNodeListener(selectNodeEvent -> {
+      JsonArray s = selectNodeEvent.getParams().getArray("nodes");
+      for (int i = 0; i< s.length(); i++) {
+        selections.add(s.get(i).asString());
+      }
+    });
+    this.addDeselectNodeListener(deselectNodeEvent -> {
+      JsonArray s = deselectNodeEvent.getParams().getObject("previousSelection").getArray("nodes");
+      for (int i = 0; i< s.length(); i++) {
+        selections.add(s.get(i).asString());
+      }});
+
   }
 
   @Override
@@ -258,6 +271,14 @@ public class NetworkDiagram extends Component implements HasSize {
         .map(pair -> new Edge(pair.getLeft(), pair.getRight())).collect(Collectors.toSet());
     this.setEdges(edges);
   }
+  public void addEdges(String... edgesIds) {
+    if (!(edgesIds.length % 2 == 0)) {
+      throw new IllegalArgumentException("number of arguments has to be even");
+    }
+    final Set<Edge> edges = Arrays.stream(edgesIds).sequential().flatMap(new PairCollater<>())
+            .map(pair -> new Edge(pair.getLeft(), pair.getRight())).collect(Collectors.toSet());
+    this.setEdges(edges);
+  }
 
   /**
    * Creates a ListDataProvider with the given items.
@@ -282,7 +303,7 @@ public class NetworkDiagram extends Component implements HasSize {
     });
   }
 
-  private void addEdges(Iterable<Edge> edges) {
+  public void addEdges(Iterable<Edge> edges) {
     addEdges(StreamSupport.stream(edges.spliterator(), false).toArray(Edge[]::new));
   }
 
@@ -308,6 +329,9 @@ public class NetworkDiagram extends Component implements HasSize {
     });
   }
 
+  public Set<String> getSelections() {
+    return selections;
+  }
   /**
    * Returns the data provider of this diagram.
    *
@@ -383,6 +407,7 @@ public class NetworkDiagram extends Component implements HasSize {
 
   public void diagramUnselectAll() {
     runBeforeClientResponse(ui -> getElement().callJsFunction("$connector.diagram.unselectAll"));
+    selections.clear();
   }
 
   public void diagramFit() {

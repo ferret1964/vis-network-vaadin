@@ -11,8 +11,11 @@ import elemental.json.JsonObject;
 @SuppressWarnings("serial")
 @DomEvent("vaadin-selectNode")
 public class SelectNodeEvent extends Event {
+  String[] selectedNodes;
   public SelectNodeEvent(final NetworkDiagram source, boolean fromClient,
       @EventData("event.detail") final JsonObject params) throws JsonException {
     super(source, fromClient, params);
+    //Params should be a JSON Objects
+
   }
 }
